@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 	"strconv"
+	"web/model"
 
 	"github.com/gin-gonic/gin"
 )
@@ -63,6 +64,14 @@ func T1(c *gin.Context) {
 			"URL":  c.Request.URL.Path,
 			"Data": res,
 		},
+	})
+
+}
+
+func T2(c *gin.Context) {
+
+	c.JSON(http.StatusOK, gin.H{
+		"data": model.UserGet(),
 	})
 
 }

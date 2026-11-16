@@ -1,12 +1,13 @@
 package model
 
 import (
+	"database/sql"
 	"web/config"
 )
 
-var db = config.Setting{Username: "sina", Password: "sina", DB: "test"}.DatabaseConnect()
+var Userdb = config.Setting{Username: "sina", Password: "sina", DB: "test"}.DatabaseConnect()
 
-type Filable struct {
+type UserFilable struct {
 	ID     string `json:"id"`
 	Name   string `json:"name"`
 	Family string `json:"family"`
@@ -17,13 +18,13 @@ func UserGet() any {
 
 	// defer db.Close()
 	var res []map[string]string
-	results, err := db.Query("SELECT * FROM users")
+	results, err := Userdb.Query("SELECT * FROM users")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for results.Next() {
-		var tag Filable
+		var tag UserFilable
 
 		err = results.Scan(&tag.ID, &tag.Name, &tag.Family, &tag.Email)
 		if err != nil {
@@ -40,5 +41,13 @@ func UserGet() any {
 	}
 
 	return res
+
+}
+
+func UserStore(name, family, email string) (sql.Result, error) {
+
+	res, err := Userdb.Exec("INSERT INTO users (name, family, email) VALUES (?, ?, ?) ;", name, family, email)
+
+	return res, err
 
 }

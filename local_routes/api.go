@@ -11,14 +11,15 @@ var r = gin.Default()
 func webRoute() {
 
 	r.GET("/t1/:num1/:num2/:ope", controllers.T1)
-	r.GET("/users", controllers.T2)
+	r.GET("/prime/:num", controllers.T5)
 
-	// {
+	{
 
-	// 	r2 := r.Group("t2")
-	// 	r2.GET("/")
+		r2 := r.Group("/user")
+		r2.GET("/", controllers.T2)
+		r2.POST("/", controllers.AddUser)
 
-	// }
+	}
 
 } // is all youre route
 
